@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from 'components/Hello'
-import TestPost from 'components/TestPost'
+import FrontPage from 'components/FrontPage'
+import Post from 'components/Post'
 
 Vue.use(Router)
 
@@ -10,13 +10,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'FrontPage',
+      component: FrontPage
     },
     {
-      path: '/test-post',
-      name: 'test-post',
-      component: TestPost
+      path: '/:name',
+      name: 'Post',
+      props: true,
+      component: Post
     }
   ]
 })

@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <nav>
-      <router-link class="nav-link" :to="{name: 'FrontPage'}">hello</router-link>
-      <router-link class="nav-link" :to="{name: 'Post'}">test-post</router-link>
+      <div class="nav-container">
+        <router-link class="nav-link" :to="{name: 'FrontPage'}">Home</router-link>
+        <router-link class="nav-link" :to="{name: 'Post'}">Item 1</router-link>
+        <router-link class="nav-link" :to="{name: 'Post'}">Item 2</router-link>
+      </div>
     </nav>
     <transition :name="transitionName">
       <router-view :posts="posts"></router-view>
@@ -73,6 +76,7 @@ html, body {
 }
 body {
   color: #333;
+  overflow-x: hidden;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -92,14 +96,69 @@ nav {
   position: fixed;
   z-index: 100;
   display: flex;
-  align-items: center;
+  /*align-items: center;*/
   /*justify-content: flex-start;*/
   width: 100vw;
 }
+.nav-container {
+  width: 800px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .nav-link {
-  flex-grow: 1;
-  flex-basis: 0;
+  /*flex-grow: 1;*/
+  /*flex-basis: 20%;*/
   text-decoration: none;
+  color: #333;
+  /*height: 100%;*/
+  position: relative;
+  font-size: 1.25em;
+  /*flex: 1 1 auto;*/
+  transition: all ease-out 0.3s;
+  margin: 0 20px;
+}
+.nav-link::before {
+  content: '';
+  border: 2.5px solid #333;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  transform: translate3d(-50%,0,0);
+  position: absolute;
+  z-index: -2;
+  opacity: 0;
+  transition: inherit;
+}
+.nav-link::after {
+  content: '';
+  background: white;
+  width: 97%;
+  position: absolute;
+  /*left: 50%;*/
+  /*right: 0;*/
+  /*margin: 0 auto;*/
+  height: calc(100% + 6px);
+  z-index: -1;
+  transition: inherit;
+  left: 50%;
+  transform: translate3d(-50%,0,0);
+}
+.nav-link:hover, .nav-link:hover::after, .nav-link:hover::before {
+  transition: all linear 0.3s;
+  color: black;
+}
+.nav-link:hover::before {
+  transition: all linear 0.3s;
+  width: calc(100% + 10px);
+}
+.nav-link:hover::after {
+  width: calc(100% - 6px);
+}
+.nav-link:hover::before {
+  opacity: 1;
 }
 .container {
   width: 800px;
@@ -111,37 +170,45 @@ pre {
   padding: 2%;
   border-radius: 5px;
   border: 1px solid #cccccc;
+  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.2);
 }
 
 /*ANIMATIONS*/
 .slide-left-fade-enter-active {
-  transition: all 600ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .slide-left-fade-leave-active {
-  transition: all 600ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .slide-left-fade-enter {
   transform: translate3d(100%, 0, 0);
-  /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);*/
+  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
   /*opacity: 0;*/
+}
+.slide-left-fade-enter-to {
+  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.0);
 }
 .slide-left-fade-leave-to {
   transform: translate3d(-40%, 0, 0);
-  /*filter: brightness(0.5);*/
+  filter: brightness(0.5);
   /*opacity: 0;*/
 }
 .slide-right-fade-enter-active {
-  transition: all 600ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  /*filter: brightness(0.5);*/
+  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  filter: brightness(0.5);
 }
 .slide-right-fade-leave-active {
-  transition: all 600ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
 }
 .slide-right-fade-enter {
   transform: translate3d(-100%, 0, 0);
-  /*filter: brightness(1);*/
+}
+.slide-right-fade-enter-to {
+  filter: brightness(1);
 }
 .slide-right-fade-leave-to {
-  transform: translate3d(40%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
 }
 </style>

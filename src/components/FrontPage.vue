@@ -47,9 +47,9 @@ export default {
   right: 0;
   background: white;
   min-height: 100vh;
-  display: flex;
+  /*display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center;*/
 }
 .posts {
   display: flex;

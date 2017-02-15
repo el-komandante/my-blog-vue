@@ -2,9 +2,10 @@
   <div id="app">
     <nav>
       <div class="nav-container">
-        <router-link class="nav-link" :to="{name: 'FrontPage'}">Home</router-link>
+        <router-link v-for="item in nav" class="nav-link" :to="{name: item.name}"><div>{{ item.text }}</div></router-link>
+        <!-- <router-link class="nav-link" :to="{name: 'FrontPage'}">Home</router-link>
         <router-link class="nav-link" :to="{name: 'Post'}">Item 1</router-link>
-        <router-link class="nav-link" :to="{name: 'Post'}">Item 2</router-link>
+        <router-link class="nav-link" :to="{name: 'Post'}">Item 2</router-link> -->
       </div>
     </nav>
     <transition :name="transitionName">
@@ -20,6 +21,20 @@ export default {
     return {
       transitionName: 'slide-left-fade',
       previous: [],
+      nav: {
+        frontPage: {
+          name: 'FrontPage',
+          text: 'Home'
+        },
+        itemOne: {
+          name: 'Post',
+          text: 'Item 3'
+        },
+        itemTwo: {
+          name: 'Post',
+          text: 'Item 2'
+        }
+      },
       posts: {
         'react-motion-basics': {
           name: 'react-motion-basics',
@@ -69,6 +84,7 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 html, body {
   margin: 0;
   height: 100%;
@@ -79,7 +95,7 @@ body {
   overflow-x: hidden;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -99,13 +115,14 @@ nav {
   /*align-items: center;*/
   /*justify-content: flex-start;*/
   width: 100vw;
+  font-family: 'Open Sans', sans-serif;
 }
 .nav-container {
   width: 800px;
   margin: 0 auto;
   height: 100%;
   display: flex;
-  justify-content: center;
+  /*justify-content: center;*/
   align-items: center;
 }
 .nav-link {
@@ -117,45 +134,47 @@ nav {
   position: relative;
   font-size: 1.25em;
   /*flex: 1 1 auto;*/
-  transition: all ease-out 0.3s;
+  transition: all ease-out 0.2s;
   margin: 0 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.nav-link:visited {
+  color: #333;
+}
+.nav-link::before, .nav-link::after {
+  content: '';
+  position: absolute;
+  transition: inherit;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  transform: translate3d(-50%,0,0);
 }
 .nav-link::before {
-  content: '';
-  border: 2.5px solid #333;
-  height: 100%;
-  width: 100%;
-  left: 50%;
+  border: 2.8px solid #333;
+  height: 75%;
+  width: calc(100% + 5px);
   transform: translate3d(-50%,0,0);
-  position: absolute;
   z-index: -2;
   opacity: 0;
-  transition: inherit;
 }
 .nav-link::after {
-  content: '';
-  background: white;
-  width: 97%;
-  position: absolute;
-  /*left: 50%;*/
-  /*right: 0;*/
-  /*margin: 0 auto;*/
   height: calc(100% + 6px);
+  background: white;
+  width: calc(100% - 5px);
   z-index: -1;
-  transition: inherit;
-  left: 50%;
-  transform: translate3d(-50%,0,0);
 }
 .nav-link:hover, .nav-link:hover::after, .nav-link:hover::before {
-  transition: all linear 0.3s;
-  color: black;
+  /*color: black;*/
 }
 .nav-link:hover::before {
-  transition: all linear 0.3s;
-  width: calc(100% + 10px);
+  width: calc(100% + 15px);
 }
 .nav-link:hover::after {
-  width: calc(100% - 6px);
+  width: calc(100% + 5px);
 }
 .nav-link:hover::before {
   opacity: 1;
@@ -183,6 +202,7 @@ pre {
 .slide-left-fade-enter {
   transform: translate3d(100%, 0, 0);
   box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
+  will-change: transform;
   /*opacity: 0;*/
 }
 .slide-left-fade-enter-to {
@@ -191,11 +211,13 @@ pre {
 .slide-left-fade-leave-to {
   transform: translate3d(-40%, 0, 0);
   filter: brightness(0.5);
+  will-change: transform, filter;
   /*opacity: 0;*/
 }
 .slide-right-fade-enter-active {
   transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
   filter: brightness(0.5);
+  will-change: filter;
 }
 .slide-right-fade-leave-active {
   transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
@@ -210,5 +232,8 @@ pre {
 .slide-right-fade-leave-to {
   transform: translate3d(100%, 0, 0);
   box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
+}
+.box {
+  will-change: transform, opacity;
 }
 </style>

@@ -105,12 +105,18 @@ export default {
       console.log(e)
       const rect = e.target.getBoundingClientRect()
       const { key } = e.target.dataset
-      // console.log(rect)
+      console.log(key)
       this.posts[key].cursorPos = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
       }
       this.posts[key].clicked = true
+      setTimeout(
+        () => {
+          this.$router.push({path: key, name: 'Post', params: {name: key}})
+        },
+        1
+      )
     },
     toggleClass (e) {
       const { key } = e.target.dataset
@@ -163,8 +169,11 @@ export default {
   transform: translate3d(0, -4px, 0);
   box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.4);
 }
+.post::selection {
+  background: none;
+}
 .circle {
-  background: white;
+  background: #3F51B5;
   position: absolute;
   opacity: 0;
   /*display: none;*/
@@ -173,6 +182,8 @@ export default {
   border-radius: 50%;
   height: 10px;
   width: 10px;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .pulse {
   /*opacity: 1;*/
@@ -205,7 +216,7 @@ export default {
   padding: 2% 0 4% 2%;
   text-align: left;
   pointer-events: none;
-}1
+}
 h1, h2 {
   font-weight: normal;
 }
@@ -225,14 +236,16 @@ a {
 }
 @keyframes ripple {
   0% {
+    width: 10px;
+    height: 10px;
     transform: scale(1);
     opacity: 0;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.4;
   }
   100% {
-    transform: scale(110);
+    transform: scale(125);
     opacity: 0;
   }
 }

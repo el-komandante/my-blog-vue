@@ -9,7 +9,7 @@
       </div>
     </nav>
     <transition :name="transitionName">
-      <router-view></router-view>
+      <router-view :posts="posts"></router-view>
     </transition>
   </div>
 </template>
@@ -33,6 +33,38 @@ export default {
         itemTwo: {
           name: 'Post',
           text: 'Item 2'
+        }
+      },
+      posts: {
+        'react-motion-basics': {
+          name: 'react-motion-basics',
+          title: 'React Motion Basics',
+          text: '## Test Test Test 11111',
+          date: new Date()
+        },
+        'test-post-2': {
+          name: 'test-post-2',
+          title: 'Test Post 2',
+          text: '# Test!!!!! 2222',
+          date: new Date()
+        },
+        'test-post-3': {
+          name: 'test-post-3',
+          title: 'Test Post 3',
+          text: '# Test!!!!! 2222',
+          date: new Date()
+        },
+        'test-post-4': {
+          name: 'test-post-4',
+          title: 'Test Post 4',
+          text: '# Test!!!!! 2222',
+          date: new Date()
+        },
+        'test-post-5': {
+          name: 'test-post-5',
+          title: 'Test Post 5',
+          text: '# Test!!!!! 2222',
+          date: new Date()
         }
       }
     }

@@ -96,8 +96,8 @@ body {
 }
 #app {
   font-family: 'Open Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /*-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;*/
   text-align: center;
   color: #2c3e50;
   /*margin-top: 60px;*/
@@ -106,7 +106,7 @@ body {
 }
 nav {
   height: 60px;
-  background: white;
+  background: #303F9F;
   box-shadow: -1px -3px 20px 0px rgba(0,0,0,0.5);
   opacity: 0.8;
   position: fixed;
@@ -129,19 +129,19 @@ nav {
   /*flex-grow: 1;*/
   /*flex-basis: 20%;*/
   text-decoration: none;
-  color: #333;
+  color: white;
   /*height: 100%;*/
   position: relative;
   font-size: 1.25em;
   /*flex: 1 1 auto;*/
   transition: all ease-out 0.2s;
   margin: 0 20px;
-  font-weight: 700;
+  /*font-weight: 700;*/
   display: flex;
   align-items: center;
 }
 .nav-link:visited {
-  color: #333;
+  color: white;
 }
 .nav-link::before, .nav-link::after {
   content: '';
@@ -163,7 +163,7 @@ nav {
 }
 .nav-link::after {
   height: calc(100% + 6px);
-  background: white;
+  background: #303F9F;
   width: calc(100% - 5px);
   z-index: -1;
 }

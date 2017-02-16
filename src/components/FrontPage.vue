@@ -102,10 +102,10 @@ export default {
   },
   methods: {
     handleClick (e) {
-      console.log(e)
+      // console.log(e)
       const rect = e.target.getBoundingClientRect()
       const { key } = e.target.dataset
-      console.log(key)
+      // console.log(key)
       this.posts[key].cursorPos = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
@@ -115,13 +115,13 @@ export default {
         () => {
           this.$router.push({path: key, name: 'Post', params: {name: key}})
         },
-        1
+        180
       )
     },
     toggleClass (e) {
       const { key } = e.target.dataset
       this.posts[key].clicked = false
-      console.log(e)
+      // console.log(e)
     }
   }
 }
@@ -152,11 +152,11 @@ export default {
   /*padding: 4px;*/
   margin: 10px;
   color: white;
-  height: 200px;
-  min-width: 200px;
+  height: 262.5px;
+  min-width: 350px;
   transition: all 0.2s ease;
-  flex-grow: 1;
-  flex-shrink: 1;
+  /*flex-grow: 1;
+  flex-shrink: 1;*/
   flex-basis: 0;
   /*flex-basis: 50%;*/
   /*max-width: 50%;*/
@@ -164,10 +164,11 @@ export default {
   overflow: hidden;
   cursor: pointer;
   border-radius: 2px;
+  box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.5);
 }
 .post:hover {
   transform: translate3d(0, -4px, 0);
-  box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.4);
 }
 .post::selection {
   background: none;
@@ -178,7 +179,7 @@ export default {
   opacity: 0;
   /*display: none;*/
   /*transition: all 0.1s ease;*/
-  /*border: 50px solid white;*/
+  border: 3px solid #354496;
   border-radius: 50%;
   height: 10px;
   width: 10px;
@@ -188,21 +189,27 @@ export default {
 .pulse {
   /*opacity: 1;*/
   animation-name: ripple;
-  animation-duration: 0.4s;
+  animation-duration: 0.7s;
   animation-iteration-count: 1;
   animation-timing-function: ease-in-out;
   /*z-index: 1000;*/
+}
+.expanding-card {
+  animation-name: expand;
+  animation-duration: 0.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
 }
 .post > img {
   height: 100%;
   width: 100%;
   pointer-events: none;
 }
-.post:nth-of-type(1) {
+/*.post:nth-of-type(1) {
   flex-grow: 3;
   height: 400px;
   flex-basis: 400px;
-}
+}*/
 .caption {
   position: absolute;
   background: black;
@@ -212,7 +219,7 @@ export default {
   right: 0;
   height: 18%;
   bottom: 0;
-  width: 98%;
+  width: 100%;
   padding: 2% 0 4% 2%;
   text-align: left;
   pointer-events: none;
@@ -233,6 +240,14 @@ li {
 
 a {
   color: #42b983;
+}
+@keyframes expand {
+  0% {
+  }
+  100% {
+    width: 100vw;
+    height: 100vh;
+  }
 }
 @keyframes ripple {
   0% {

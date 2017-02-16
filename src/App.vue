@@ -9,7 +9,7 @@
       </div>
     </nav>
     <transition :name="transitionName">
-      <router-view :posts="posts"></router-view>
+      <router-view></router-view>
     </transition>
   </div>
 </template>
@@ -33,38 +33,6 @@ export default {
         itemTwo: {
           name: 'Post',
           text: 'Item 2'
-        }
-      },
-      posts: {
-        'react-motion-basics': {
-          name: 'react-motion-basics',
-          title: 'React Motion Basics',
-          text: '## Test Test Test 11111',
-          date: new Date()
-        },
-        'test-post-2': {
-          name: 'test-post-2',
-          title: 'Test Post 2',
-          text: '# Test!!!!! 2222',
-          date: new Date()
-        },
-        'test-post-3': {
-          name: 'test-post-3',
-          title: 'Test Post 3',
-          text: '# Test!!!!! 2222',
-          date: new Date()
-        },
-        'test-post-4': {
-          name: 'test-post-4',
-          title: 'Test Post 4',
-          text: '# Test!!!!! 2222',
-          date: new Date()
-        },
-        'test-post-5': {
-          name: 'test-post-5',
-          title: 'Test Post 5',
-          text: '# Test!!!!! 2222',
-          date: new Date()
         }
       }
     }
@@ -194,44 +162,47 @@ pre {
 
 /*ANIMATIONS*/
 .slide-left-fade-enter-active {
-  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  transition: all 375ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .slide-left-fade-leave-active {
-  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  transition: all 375ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 .slide-left-fade-enter {
   transform: translate3d(100%, 0, 0);
-  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
+  /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);*/
   will-change: transform;
   /*opacity: 0;*/
 }
 .slide-left-fade-enter-to {
-  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.0);
+  /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.0);*/
 }
 .slide-left-fade-leave-to {
   transform: translate3d(-40%, 0, 0);
-  filter: brightness(0.5);
+  /*filter: brightness(0.5);*/
   will-change: transform, filter;
   /*opacity: 0;*/
 }
 .slide-right-fade-enter-active {
-  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  filter: brightness(0.5);
+  transition: all 375ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  /*transform: translate3d(0, 0, 0);*/
+  /*filter: brightness(0.5);*/
   will-change: filter;
 }
 .slide-right-fade-leave-active {
-  transition: all 500ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
+  transform: translate3d(0, 0, 0);
+  transition: all 375ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);*/
 }
 .slide-right-fade-enter {
   transform: translate3d(-100%, 0, 0);
 }
 .slide-right-fade-enter-to {
-  filter: brightness(1);
+  transform: translate3d(0, 0, 0);
+  /*filter: brightness(1);*/
 }
 .slide-right-fade-leave-to {
   transform: translate3d(100%, 0, 0);
-  box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);
+  /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);*/
 }
 .box {
   will-change: transform, opacity;

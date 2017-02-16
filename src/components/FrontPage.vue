@@ -2,14 +2,16 @@
   <div class="front-page">
     <div class="container">
       <div class="posts">
-        <router-link class="post" v-for="post in posts" :to="post.name">
+        <div class="post" :data-index="index" :data-key="key" @click="handleClick" v-for="(post, key, index) in posts" :to="post.name">
           <img src="https://avatars2.githubusercontent.com/u/15882674?v=3&s=88" />
           <div class="caption">
             {{ post.title }}
+            {{ post.cursorPos.x }}
             <br />
             {{ post.date.getDate() }}/{{ post.date.getDay() }}/{{ post.date.getFullYear() }}
           </div>
-        </router-link>
+          <span :data-key="key" :class="{ pulse: post.clicked, circle: true }" :style="{ left: `${post.cursorPos.x}px`, top: `${post.cursorPos.y}px` }" @animationend="toggleClass"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -18,20 +20,102 @@
 <script>
 export default {
   name: 'FrontPage',
-  props: ['posts'],
   data () {
     return {
       cursorPos: {
         x: 0,
         y: 0
+      },
+      activeIndex: null,
+      posts: {
+        'react-motion-basics': {
+          name: 'react-motion-basics',
+          title: 'React Motion Basics',
+          text: '## Test Test Test 11111',
+          date: new Date(),
+          cursorPos: {
+            x: 0,
+            y: 0
+          },
+          clicked: false
+        },
+        'test-post-2': {
+          name: 'test-post-2',
+          title: 'Test Post 2',
+          text: '# Test!!!!! 2222',
+          date: new Date(),
+          cursorPos: {
+            x: 0,
+            y: 0
+          },
+          clicked: false
+        },
+        'test-post-3': {
+          name: 'test-post-3',
+          title: 'Test Post 3',
+          text: '# Test!!!!! 2222',
+          date: new Date(),
+          cursorPos: {
+            x: 0,
+            y: 0
+          },
+          clicked: false
+        },
+        'test-post-4': {
+          name: 'test-post-4',
+          title: 'Test Post 4',
+          text: '# Test!!!!! 2222',
+          date: new Date(),
+          cursorPos: {
+            x: 0,
+            y: 0
+          },
+          clicked: false
+        },
+        'test-post-5': {
+          name: 'test-post-5',
+          title: 'Test Post 5',
+          text: '# Test!!!!! 2222',
+          date: new Date(),
+          cursorPos: {
+            x: 0,
+            y: 0
+          },
+          clicked: false
+        }
       }
     }
   },
-  handleClick (e) {
-    const rect = e.target.getBoundingClientRect()
-    this.cursorPos = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+  computed: {
+    recentPosts: function () {
+      let posts = Object.keys(this.posts).map((key) => {
+        let post = this.posts[key]
+        post.clicked = null
+        post.cursorPos = {
+          x: 0,
+          y: 0
+        }
+        return post
+      })
+      return posts
+    }
+  },
+  methods: {
+    handleClick (e) {
+      console.log(e)
+      const rect = e.target.getBoundingClientRect()
+      const { key } = e.target.dataset
+      // console.log(rect)
+      this.posts[key].cursorPos = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      }
+      this.posts[key].clicked = true
+    },
+    toggleClass (e) {
+      const { key } = e.target.dataset
+      this.posts[key].clicked = false
+      console.log(e)
     }
   }
 }
@@ -72,46 +156,36 @@ export default {
   /*max-width: 50%;*/
   /*border: 1px solid #333;*/
   overflow: hidden;
+  cursor: pointer;
+  border-radius: 2px;
 }
 .post:hover {
   transform: translate3d(0, -4px, 0);
   box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.4);
 }
-/*.ripple {
-  position: absolute;
-  height: 100%;
-  width: 100%;
+.circle {
   background: white;
-  z-index: 1000;
-}
-.ripple::after {
-  content: "";
-  background: #cccccc;
-  display: block;
   position: absolute;
-  top: inherit;
-  left: inherit;
-  height: 100%;
-  width: 100%;
-  padding-top: 300%;
-  padding-left: 350%;
-  margin-left: -20px !important;
-  margin-top: -120%;
-  border-radius: 50%;
   opacity: 0;
-  transition: all 1s;
+  /*display: none;*/
+  /*transition: all 0.1s ease;*/
+  /*border: 50px solid white;*/
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
 }
-.ripple:active::after {
-  top: inherit;
-  left: inherit;
-  padding: 0;
-  margin: 0;
-  opacity: 0.7;
-  transition: 0s
-}*/
+.pulse {
+  /*opacity: 1;*/
+  animation-name: ripple;
+  animation-duration: 0.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  /*z-index: 1000;*/
+}
 .post > img {
   height: 100%;
   width: 100%;
+  pointer-events: none;
 }
 .post:nth-of-type(1) {
   flex-grow: 3;
@@ -120,7 +194,8 @@ export default {
 }
 .caption {
   position: absolute;
-  background: rgba(0,0,0,0.5);
+  background: black;
+  opacity: 0.65;
   color: white;
   left: 0;
   right: 0;
@@ -129,7 +204,8 @@ export default {
   width: 98%;
   padding: 2% 0 4% 2%;
   text-align: left;
-}
+  pointer-events: none;
+}1
 h1, h2 {
   font-weight: normal;
 }
@@ -146,5 +222,18 @@ li {
 
 a {
   color: #42b983;
+}
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(110);
+    opacity: 0;
+  }
 }
 </style>

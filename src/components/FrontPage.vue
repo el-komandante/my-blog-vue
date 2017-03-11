@@ -179,7 +179,7 @@ export default {
   opacity: 0;
   /*display: none;*/
   /*transition: all 0.1s ease;*/
-  border: 3px solid #354496;
+  /*border: 3px solid #354496;*/
   border-radius: 50%;
   height: 10px;
   width: 10px;

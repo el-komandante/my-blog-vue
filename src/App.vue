@@ -2,7 +2,21 @@
   <div id="app">
     <nav>
       <div class="nav-container">
-        <router-link v-for="item in nav" class="nav-link" :to="{name: item.name}"><div>{{ item.text }}</div></router-link>
+        <transition :name="'nav-fade'">
+          <!-- <div v-if="previous[previous.length - 1]" class="left-nav"> -->
+            <router-link v-if="previous[previous.length - 1]" class="left-nav" :to="{path: previous[previous.length - 1].path}">
+              {{ previous[previous.length - 1].name }}
+            </router-link>
+          <!-- </div> -->
+        </transition>
+        <transition :name="'nav-slide-left'">
+          <div v-if="posts[$router.currentRoute.path.substr(1)]" class="nav-link">
+            {{ posts[$router.currentRoute.path.substr(1)].title }}
+          </div>
+          <div class="nav-link" v-else>
+            Home
+          </div>
+        </transition>
         <!-- <router-link class="nav-link" :to="{name: 'FrontPage'}">Home</router-link>
         <router-link class="nav-link" :to="{name: 'Post'}">Item 1</router-link>
         <router-link class="nav-link" :to="{name: 'Post'}">Item 2</router-link> -->
@@ -18,6 +32,7 @@
 export default {
   name: 'app',
   data () {
+    // console.log(this.$router)
     return {
       transitionName: 'slide-left-fade',
       previous: [],
@@ -71,12 +86,19 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      if (to.name === this.previous[this.previous.length - 1]) {
-        this.transitionName = 'slide-right-fade'
-        this.previous.pop()
+      if (this.previous.length > 0) {
+        if (to.path === this.previous[this.previous.length - 1].path) {
+          this.transitionName = 'slide-right-fade'
+          this.previous.pop()
+        }
       } else {
+        console.log(from)
         this.transitionName = 'slide-left-fade'
-        this.previous.push(from.name)
+        const prev = {
+          name: from.path.substr(1).length > 0 ? from.path.substr(1) : 'Home',
+          path: from.path
+        }
+        this.previous.push(prev)
       }
     }
   }
@@ -121,29 +143,45 @@ nav {
   width: 800px;
   margin: 0 auto;
   height: 100%;
-  display: flex;
-  /*justify-content: center;*/
-  align-items: center;
+  /*display: flex;
+  justify-content: center;
+  align-items: center;*/
+  position: relative;
 }
-.nav-link {
-  /*flex-grow: 1;*/
-  /*flex-basis: 20%;*/
+.left-nav {
+  margin: auto 0;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(0,-50%,0);
+  left: 0;
+  transform: translate3d(0,-50%,0);
   text-decoration: none;
   color: white;
-  /*height: 100%;*/
-  position: relative;
   font-size: 1.25em;
-  /*flex: 1 1 auto;*/
+  cursor: pointer;
+}
+.nav-link {
+  pointer-events: none;
+  text-decoration: none;
+  color: white;
+  font-size: 1.25em;
   transition: all ease-out 0.2s;
   margin: 0 20px;
-  /*font-weight: 700;*/
-  display: flex;
-  align-items: center;
+  display: inline-block;
+  position: absolute;
+  margin: auto;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  top: 0;
+  bottom: 0;
+  /*right: 0;
+  top: 0;
+  bottom: 0;*/
 }
 .nav-link:visited {
   color: white;
 }
-.nav-link::before, .nav-link::after {
+/*.nav-link::before, .nav-link::after {
   content: '';
   position: absolute;
   transition: inherit;
@@ -168,7 +206,7 @@ nav {
   z-index: -1;
 }
 .nav-link:hover, .nav-link:hover::after, .nav-link:hover::before {
-  /*color: black;*/
+  color: black;
 }
 .nav-link:hover::before {
   width: calc(100% + 15px);
@@ -178,7 +216,7 @@ nav {
 }
 .nav-link:hover::before {
   opacity: 1;
-}
+}*/
 .container {
   width: 800px;
   margin: 60px auto 0px auto;
@@ -211,14 +249,14 @@ pre {
 .slide-left-fade-leave-to {
   transform: translate3d(-40%, 0, 0);
   /*filter: brightness(0.5);*/
-  will-change: transform, filter;
+  /*will-change: transform, filter;*/
   /*opacity: 0;*/
 }
 .slide-right-fade-enter-active {
   transition: all 375ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
   /*transform: translate3d(0, 0, 0);*/
   /*filter: brightness(0.5);*/
-  will-change: filter;
+  /*will-change: filter;*/
 }
 .slide-right-fade-leave-active {
   transform: translate3d(0, 0, 0);
@@ -235,6 +273,19 @@ pre {
 .slide-right-fade-leave-to {
   transform: translate3d(100%, 0, 0);
   /*box-shadow: -4px 2px 29px 2px rgba(0,0,0,0.52);*/
+}
+.nav-slide-left-enter-active, .nav-slide-left-leave-active {
+  transition: all 0.3s ease;
+}
+.nav-slide-left-leave-to {
+  /*transform: translate3d(-100%, -50%, 0);*/
+  left: 0;
+}
+.nav-fade-enter-active, .nav-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.nav-fade-leave-to {
+  opacity: 0;
 }
 .box {
   will-change: transform, opacity;

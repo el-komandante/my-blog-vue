@@ -9,15 +9,31 @@ The spring handles all the [**interpolation**](https://en.wikipedia.org/wiki/Int
 spring() also accepts a configuration object that defines the stiffness and damping of the interpolation - think of an actual spring. Low damping and high stiffness causes a more wobbly effect (the value will rapidly fluctuate between just below and just above the end value). A high damping value will create a steadier, more restrained effect - the example below uses a high damping value to emphasize the purpose of spring(). There are presets available for your use as well. You can animate **any** numerical value this way! The below example shows how the spring moves from a value of zero to a value of 1.
 
 ### spring() Example ###
-<!-- <div style="width: 100%; max-height: 400px; display: flex; justify-content: center; align-items: center;">
+<div style="width: 100%; max-height: 400px; display: flex; justify-content: left; align-items: left;">
   <video autoplay loop style="max-height: 400px;">
     <source src="https://s3.us-east-2.amazonaws.com/blog-assets-000001/spring-example-clipped.webm" type="video/webm">
   <video>
-</div> -->
+</div>
 
 ## Motion ##
 
-The `Motion` component is what you want if you're trying to animate a single element, or a group of elements at the same time. Motion takes two props: `defaultStyle` and `style`. The `defaultStyle` object should contain the initial values for the properties that you'd like to animate. The `style` object is where your `spring()`s go and it should map the same properties as the `defaultStyle` object to `spring()`s containing your end values. This may seem a bit confusing at the moment but some examples should make things clearer.
+The `Motion` component is what you want if you're trying to animate a single element, or a group of elements at the same time. Motion takes two props: `defaultStyle` and `style`. The `defaultStyle` object should contain the initial values for the properties that you'd like to animate. The `style` object is where your `spring()`s go and it should map the same properties as  `defaultStyle` to `spring()`s containing your end values. This may seem a bit confusing at the moment but some examples should make things clearer.
+
+```js
+render() {
+  const defaultStyle = {
+      x: 0,
+      y: 0
+  }
+  return (
+      <Motion defaultStyle={ defaultStyle } style={ {x: spring(endX), y: spring(endY)} }>
+        {style =>
+          <div style={ {width: 100, height: 100, transform: `translate3d(${style.x}, ${style.y})`} }>
+        }
+      </Motion>
+  )
+}
+```
 
 ## Example 1: Animate on Page Load ##
 By default react-motion will trigger your animations on page load. Take this simple application, which renders a div within another div:
@@ -27,13 +43,13 @@ By default react-motion will trigger your animations on page load. Take this sim
 
 
 ## Example 2: Toggle ##
-A popular way to trigger an animation is when a user interacts with an element on the page e.g. a button. You can use the ternary operator to
+A popular way to trigger an animation is when a user interacts with an element on the page e.g. a button. You can use the ternary operator to toggle between your start and end values.
 
 ## Example 3: Looping ##
 Looping is fairly straightforward: pass in a callback function as Motion's `onRest` prop and it will be called when the animation finishes.
 
 ## StaggeredMotion ##
-`StaggeredMotion` is very similar to Motion with a few key differences. As you may have guessed, you can use it to chain animations as if they were connected by real springs.
+`StaggeredMotion` is very similar to Motion with a few key differences. `StaggeredMotion` allows you to animate a collection of **fixed** length, as if the items were attached to one another by springs.
 
 
 ```js
